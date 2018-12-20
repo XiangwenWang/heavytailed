@@ -4,7 +4,27 @@ from scipy.special import gammaln
 
 
 class distribution(object):
+    '''
+    This class is used as a skeleton on which we build different
+    distribution classes
 
+    When building a specific distribution, one need to inherite this class,
+    and re-write functions including:
+        __init__() : define the distribution name and number of parameters
+        _loglikelihood() : calculate the log-likelihood for a specific
+                           parameter setting
+        _fitting() : find the maximum likelihood estimator of parameters
+        _get_ccdf() : obtain the CCDF
+
+    The functions of this class will
+        perform parameter estimation based on maximum likelihood estimation;
+        obtain the complementary cumulative distribution function (CCDF),
+            also referred as survival function,
+            with logarithmic binning;
+        calculate the K-S statistics (and perform K-S test);
+        and find the start of tails (x_min)
+    for a given dataset of discrete values
+    '''
     def __init__(self):
         self.name = 'distribution not specified'
         self.fitting_res = {}

@@ -5,6 +5,10 @@ from scipy.optimize import minimize
 
 
 class powerlaw(distribution):
+    '''
+    Discrete power law distributions, given by
+    P(x) ~ x^(-alpha)
+    '''
 
     def __init__(self):
         super(powerlaw, self).__init__()

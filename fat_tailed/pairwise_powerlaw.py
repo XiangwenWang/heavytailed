@@ -5,7 +5,11 @@ from scipy.optimize import minimize
 
 
 class pairwise_powerlaw(distribution):
-
+    '''
+    Discrete pairwise power law distribution, given by
+    P(x) ~ x^(-alpha)   for xmin <= x < x_trans
+           x^(-beta)    for x >= x_trans
+    '''
     def __init__(self):
         super(pairwise_powerlaw, self).__init__()
         self.name = 'pairwise power law'

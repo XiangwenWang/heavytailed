@@ -5,7 +5,10 @@ from scipy.optimize import minimize
 
 
 class lognormal(distribution):
-
+    '''
+    Discrete log-normal distributions, given by
+    ln(x) ~ Normal(mu, sigma^2)
+    '''
     para_limits = {'mu': (-10, 10), 'sigma': (1.5, 8)}
     init_values = (2, 4)
 

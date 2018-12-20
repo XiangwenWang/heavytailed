@@ -3,7 +3,10 @@ import numpy as np
 
 
 class exponential(distribution):
-
+    '''
+    Discrete exponential distributions (shifted geometric), given by
+    P(x) ~ e^(-x * lambda)
+    '''
     def __init__(self):
         super(exponential, self).__init__()
         self.name = 'exponential'
