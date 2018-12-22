@@ -8,6 +8,10 @@ class lognormal(distribution):
     '''
     Discrete log-normal distributions, given by
     ln(x) ~ Normal(mu, sigma^2)
+
+    More specificly:
+    P(k)=(Phi((log(k+1)-mu)/sigma)-Phi((log(k)-mu)/sigma))
+         / (1-Phi((log(k_min)-mu)/sigma))
     '''
     para_limits = {'mu': (-10, 10), 'sigma': (1.5, 8)}
     init_values = (2, 4)
@@ -36,8 +40,6 @@ class lognormal(distribution):
             return np.log(normfactor)
 
     def _loglikelihood(self, mu_sigma, freq, xmin, N):
-        # P(k)=(Phi((log(k+1)-mu)/sigma)-Phi((log(k)-mu)/sigma)) /
-        #       (1-Phi((log(k_min)-mu)/sigma))
         mu, sigma = mu_sigma
         temp_z = -(np.log(xmin) - mu) / sigma
         normfactor = self._check_zero_log(norm.cdf(temp_z), temp_z)
@@ -46,7 +48,6 @@ class lognormal(distribution):
                                       for i in freq[:, 0]))
         lognormsum = np.sum(lognormfactor * freq[:, -1])
         logll = lognormsum - N * normfactor
-        # print(mu, sigma, -logll)
         return -logll
 
     def _fitting(self, xmin=1):
@@ -67,8 +68,6 @@ class lognormal(distribution):
         return (res2.x, -res2.fun, aic), fits
 
     def _get_ccdf(self, xmin):
-        # P(k)=(Phi((log(k+1)-mu)/sigma)-Phi((log(k)-mu)/sigma))
-        #       /(1-Phi((log(k_min)-mu)/sigma))
         mu = self.fitting_res[xmin][1]['mu']
         sigma = self.fitting_res[xmin][1]['sigma']
 

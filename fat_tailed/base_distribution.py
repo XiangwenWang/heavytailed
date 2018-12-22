@@ -9,7 +9,7 @@ class distribution(object):
     distribution classes
 
     When building a specific distribution, one need to inherite this class,
-    and re-write functions including:
+    and over-ride functions including:
         __init__() : define the distribution name and number of parameters
         _loglikelihood() : calculate the log-likelihood for a specific
                            parameter setting
@@ -25,27 +25,53 @@ class distribution(object):
         and find the start of tails (x_min)
     for a given dataset of discrete values
     '''
+
     def __init__(self):
+        '''
+        The specific distributions will take this __init__ function
+        and specify the distribution name and number of parameters
+        '''
+        # value will be assigned in specific distribution classes
         self.name = 'distribution not specified'
-        self.fitting_res = {}
-        self.ccdf_x = {}
-        self.ccdf_data = {}
-        self.ccdf = {}
-        self.N_xmin = {}
-        self.KSStat = {}
-        self.KSTest = {}
+        # each x_min will be a key in the following dictionaries
+        self.fitting_res = {}  # fitting results from MLE
+        self.ccdf_x = {}   # the x values for log-binning
+        self.ccdf_data = {}  # frequency data
+        self.ccdf = {}  # CCDF after log-binning
+        self.N_xmin = {}  # value count that is above x_min
+        self.KSStat = {}  # K-S statistics for each x_min
+        self.KSTest = {}  # K-S test results for each x_min
+        # Reject region for K-S test with different alpha's
         self._KSStat_RR = {0.05: 1.35810, 0.1: 1.22385}
 
     def _loglikelihood(self):
-        # will be overrided in specific distribution class
+        '''
+        This function aims to calculate the log-likelihood for
+        a specific parameter setting
+
+        It will be overrided in the specific distribution class
+        '''
         pass
 
     def _fitting(self):
-        # will be overrided in specific distribution class
+        '''
+        This function aims to find the maximum likelihood estimator (MLE)
+        of parameters based on the given data and x_min
+
+        It is based on the minimize function in scipy and relies on the
+        L-BFGS-B solver
+
+        It will be overrided in the specific distribution class
+        '''
         pass
 
     def _get_ccdf(self):
-        # will be overrided in specific distribution class
+        '''
+        This function aims to obtain the CCDF of the data with log-binning
+        techinique
+
+        It will be overrided in the specific distribution class as well
+        '''
         pass
 
     def prepare(self, filename):
@@ -69,8 +95,11 @@ class distribution(object):
             self.freq_filename = self.filename.replace('raw_', 'freq_')
             self.freq = np.loadtxt(self.freq_filename, dtype=int)
         except (IOError, ValueError):
+            # if frequency file is not found, calculate the frequency
             data = pd.read_csv(self.filename, dtype=int,
                                header=None, names=['data']).data.values
+            # when loading large amount of data, using pd.read_csv is
+            # much faster than np.loadtxt
             self._value_counts(data)
             np.savetxt(self.freq_filename, self.freq, fmt='%d')
 
@@ -116,10 +145,10 @@ class distribution(object):
                                                ], dtype=float).T
             return
 
-        bins = 0.1
-        threshold = .5  # percents
-        filt_y = (100 / threshold)**2
-        ccdf_bd = []  # binned ccdf
+        bins = 0.1  # binning size on log-scale for log-binning
+        threshold = .5  # percentage
+        filt_y = (100 / threshold)**2  # value counts for ignoring log-binning
+        ccdf_bd = []  # log-binned CCDF
         binned = False
 
         for i in range(len(freq[:-1])):
@@ -138,7 +167,8 @@ class distribution(object):
                     else:
                         mid_index = freq[:, 0].searchsorted(mid_x)
                         if last_mid_index != mid_index:
-                            ccdf_bd.append([freq[mid_index][0], freq[mid_index][1]])
+                            ccdf_bd.append([freq[mid_index][0],
+                                            freq[mid_index][1]])
                         last_mid_index = mid_index
                     try:
                         mid_x = int(np.power(10, start_log_x + bins / 2.)) + 1
@@ -156,7 +186,7 @@ class distribution(object):
     def check(self, xmin=1, alpha=0.05, output=True):
         try:
             ccdf_data_filename = self.filename.replace('raw_', ''
-                ).replace('.dat', '_ccdf_%d.dat' % xmin)
+                                    ).replace('.dat', '_ccdf_%d.dat' % xmin)
             self.ccdf_data[xmin] = np.loadtxt(ccdf_data_filename)
         except (IOError, ValueError):
             self._get_data_ccdf(xmin, ccdf_data_filename)
@@ -176,8 +206,10 @@ class distribution(object):
                                                    self.name.replace(' ', '_'))
         np.savetxt(ccdf_filename, self.ccdf[xmin])
 
-        self.KSStat[xmin] = np.max(np.abs(self.ccdf_data[xmin][:, 1] - self.ccdf[xmin][:, 1]))
-        if self.KSStat[xmin] > self._KSStat_RR[alpha] / np.sqrt(self.N_xmin[xmin]):
+        self.KSStat[xmin] = np.max(np.abs(self.ccdf_data[xmin][:, 1] -
+                                          self.ccdf[xmin][:, 1]))
+        if (self.KSStat[xmin] > self._KSStat_RR[alpha] /
+                np.sqrt(self.N_xmin[xmin])):
             self.KSTest[xmin] = False
         else:
             self.KSTest[xmin] = True

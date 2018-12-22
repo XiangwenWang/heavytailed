@@ -5,6 +5,10 @@ from mpmath import mp
 
 
 class powerlaw_exp(distribution):
+    '''
+    Power law distributions with exponential cutoff, given by
+    P(x) ~ x^(-alpha) e^(-lambda x)
+    '''
 
     def __init__(self):
         super(powerlaw_exp, self).__init__()

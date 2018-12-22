@@ -5,6 +5,10 @@ from scipy.optimize import minimize
 
 
 class yule(distribution):
+    '''
+    Yule distributions, given by
+    P(x) ~ gamma(x) / gamma(x + alpha)
+    '''
 
     def __init__(self):
         super(yule, self).__init__()

@@ -4,6 +4,15 @@ from scipy.optimize import minimize
 
 
 class shifted_powerlaw_exp(distribution):
+    '''
+    Shifted power law distribution with exponential cutoff, given by
+    P(x) ~ (x-delta)^(-alpha) / (1 + e^(-lambda * (x-beta)) )
+
+    This distribution can be used to describe the bet-value distribution
+    in a parimutuel betting game, Jackpot, where in-game skins are directly
+    used as wagers. Details can be found here
+    https://journals.aps.org/pre/abstract/10.1103/PhysRevE.98.012126
+    '''
 
     def __init__(self):
         super(shifted_powerlaw_exp, self).__init__()

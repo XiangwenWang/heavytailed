@@ -9,7 +9,13 @@ class pairwise_powerlaw(distribution):
     Discrete pairwise power law distribution, given by
     P(x) ~ x^(-alpha)   for xmin <= x < x_trans
            x^(-beta)    for x >= x_trans
+
+    This distribution can be used to describe the jump-length distribution
+    in human online searching with a environment of sparse resources
+    Details can be found here
+    https://journals.aps.org/pre/abstract/10.1103/PhysRevE.95.032145
     '''
+
     def __init__(self):
         super(pairwise_powerlaw, self).__init__()
         self.name = 'pairwise power law'

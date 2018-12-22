@@ -6,7 +6,12 @@ from scipy.special import gammaln
 
 
 class poisson(distribution):
+    '''
+    (Truncated) poisson distributions, given by
+    P(x) ~ mu^x / x!
 
+    This is a thin-tailed distribution
+    '''
     def __init__(self):
         super(poisson, self).__init__()
         self.name = 'poisson'
