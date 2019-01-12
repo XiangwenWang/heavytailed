@@ -1,2 +1,2 @@
-# fat_tailed
-Perform distribution analysis on fat-tailed distributed data
+# heavy_tailed
+Perform distribution analysis on heavy-tailed distributed data

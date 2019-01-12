@@ -77,36 +77,62 @@ class distribution(object):
     def prepare(self, filename):
         self.filename = filename
         self._load_data()
-        self.xmax = max(self.freq[:, 0])
+        self.xmax = max(self.freq[:, 0])  # max value of the data
 
     def _value_counts(self, data):
+        '''
+        Used to find the frequency of the data values
+        the self.freq is an array of
+        (x, N(X>x), N(X>=x), N(X==x))
+
+        parameters:
+        data: an (numpy) array of values, e.g. [2,1,1,5,3,...]
+        '''
+
         total, freq = len(data), []
 
         for x in np.sort(np.unique(data))[:]:
-            data = data[data >= x]
-            count_x = len(data[data == x])
-            total -= count_x
+            # for each unique x in data from smallest to largest
+            data = data[data >= x]  # N(X>=x)
+            count_x = len(data[data == x])  # N(X==x)
+            total -= count_x   # N(X>x)
             freq.append([x, total, len(data), count_x])
 
-        self.freq = np.asarray(freq, dtype=int)
+        self.freq = np.asarray(freq, dtype=int)  # frequency data
 
     def _load_data(self):
         try:
+            '''
+            Load the frequncy data if there is one
+            Note that, once the data files is changed,
+            one should remove the frequency data as well
+            '''
             self.freq_filename = self.filename.replace('raw_', 'freq_')
             self.freq = np.loadtxt(self.freq_filename, dtype=int)
         except (IOError, ValueError):
             # if frequency file is not found, calculate the frequency
             data = pd.read_csv(self.filename, dtype=int,
                                header=None, names=['data']).data.values
-            # when loading large amount of data, using pd.read_csv is
+            # When loading large amountss of data, using pd.read_csv is
             # much faster than np.loadtxt
             self._value_counts(data)
             np.savetxt(self.freq_filename, self.freq, fmt='%d')
 
     def _sum_log_gamma_func(self, freq, shift=0):
+        '''
+        return the sum of the log of the Gamma function of the data
+
+        Parameter:
+        freq: freqency data (for x above x_min)
+        shift: alpha in Gamma(x+a)
+        '''
         return np.sum(gammaln(freq[:, 0] + shift) * freq[:, -1])
 
     def _round_res(self, res):
+        '''
+        Dust for displaying purposes,
+        make the floating number shorter when displayed
+        '''
         para, ll, aic = res
         if type(para) == np.float64:
             para = str(round(para, 8))
@@ -145,6 +171,12 @@ class distribution(object):
                                                ], dtype=float).T
             return
 
+        '''
+        Perform log-binning
+        we will start binning at x-0.5 for x which satisfies
+        i) log_10(x) - log_10(x-1) <= bins, and
+        ii) N(x) <= a value count threshold (filt_y below)
+        '''
         bins = 0.1  # binning size on log-scale for log-binning
         threshold = .5  # percentage
         filt_y = (100 / threshold)**2  # value counts for ignoring log-binning
@@ -156,6 +188,7 @@ class distribution(object):
                                  (freq[i, 0] < 2) or
                                  np.log10(freq[i, 0]) -
                                  np.log10(freq[i, 0] - 1) > bins):
+                # for these x's, ignore binning
                 ccdf_bd.append([freq[i, 0], freq[i, 1]])
 
             else:
