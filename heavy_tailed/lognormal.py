@@ -13,6 +13,9 @@ class lognormal(distribution):
     P(k)=(Phi((log(k+1)-mu)/sigma)-Phi((log(k)-mu)/sigma))
          / (1-Phi((log(k_min)-mu)/sigma))
     '''
+
+    # change these values when necessary
+    # especially when the returned likelihood is np.nan
     para_limits = {'mu': (-10, 10), 'sigma': (1.5, 8)}
     init_values = (2, 4)
 

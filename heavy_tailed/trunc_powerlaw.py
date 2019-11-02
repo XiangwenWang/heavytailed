@@ -5,7 +5,12 @@ from mpmath import mp
 
 
 class truncated_powerlaw(distribution):
+    '''
+    truncated shifted power law distribution
 
+    P(x) ~ (x - delta)^{-alpha}, x < x_max,
+           zeta(alpha, m_max -delta), x = x_max
+    '''
     def __init__(self):
         super(truncated_powerlaw, self).__init__()
         self.name = 'truncated power law'
