@@ -34,3 +34,9 @@ Raw data are expected to be **positive integers**. Maximum likelihood estimation
 The model with minimum **AIC** (or say the largest Akaike weight) will be selected as the best-fitted model.
 
 The analysis mainly focuses on the tails, and the start of the tail will be determined through minimizing the **K-S distance** between fitted models and the empirical distribution.
+
+Example Usage:  
+```python
+from heavy_tailed import compare
+compare.comparison('testdata/raw_25_bets.dat', xmin=25)
+```
