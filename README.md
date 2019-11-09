@@ -31,6 +31,8 @@ Raw data are expected to be **positive integers**. Maximum likelihood estimation
 
 <!---In above formulas, the normalization factors and the condition $$x\ge x_\text{min}$$ are omitted.-->
 
+An optimizer based on sequential least squares programming (SLSQP) is applied to maximize the likelihood function. (Initially, it was based on L-BFGS-B, but L-BFGS-B cannot handle inequality constraints, which are used to avoid overflow.)
+
 The model with minimum **AIC** (or say the largest Akaike weight) will be selected as the best-fitted model.
 
 The analysis mainly focuses on the tails, and the start of the tail will be determined through minimizing the **K-S distance** between fitted models and the empirical distribution.
