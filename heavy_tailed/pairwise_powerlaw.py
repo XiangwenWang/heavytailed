@@ -49,7 +49,7 @@ class pairwise_powerlaw(distribution):
             self.N_xmin[xmin] = N
 
         res = minimize(self._loglikelihood, x0=(1.3, 3.5, 0.001),
-                       method='L-BFGS-B', tol=1e-8,
+                       method='SLSQP', tol=1e-8,
                        args=(xmin, freq, N),
                        bounds=((0. + 1e-6, 10.0),
                                (1. + 1e-6, 10.0),

@@ -31,7 +31,7 @@ class truncated_powerlaw(distribution):
             self.N_xmin[xmin] = N
 
         res = minimize(self._loglikelihood, x0=(2, 0.5),
-                       method='L-BFGS-B', tol=1e-8,
+                       method='SLSQP', tol=1e-8,
                        args=(xmin, freq, N, Nmax),
                        bounds=((1. + 1e-2, 5.0), (1e-3, 0.95 - 1e-3)))
 

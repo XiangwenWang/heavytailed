@@ -61,7 +61,7 @@ class lognormal(distribution):
 
         res2 = minimize(self._loglikelihood, x0=self.init_values,
                         args=(freq, xmin, N),
-                        method='L-BFGS-B', tol=1e-8,
+                        method='SLSQP', tol=1e-8,
                         bounds=(self.para_limits['mu'],
                                 self.para_limits['sigma']))
         aic = 2 * res2.fun + 2 * self.n_para

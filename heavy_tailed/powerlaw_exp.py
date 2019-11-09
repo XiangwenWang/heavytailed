@@ -38,7 +38,7 @@ class powerlaw_exp(distribution):
             self.N_xmin[xmin] = N
 
         res = minimize(self._loglikelihood, x0=(2, 1e-4),
-                       method='L-BFGS-B', tol=1e-8,
+                       method='SLSQP', tol=1e-8,
                        args=(xmin, sumdata, sumlog, N),
                        bounds=((1e-15, 5), (1e-15, 1e-1)))
 

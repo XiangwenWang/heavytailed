@@ -31,7 +31,7 @@ class yule(distribution):
             self.N_xmin[xmin] = N
 
         res = minimize(self._loglikelihood, x0=(1.6),
-                       method='L-BFGS-B', tol=1e-8,
+                       method='SLSQP', tol=1e-8,
                        args=(xmin, freq, sum_log_gamma, N),
                        bounds=((1. + 1e-6, 100.0),))
         aic = 2 * res.fun + 2 * self.n_para
