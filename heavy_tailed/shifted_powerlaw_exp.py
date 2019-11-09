@@ -41,11 +41,16 @@ class shifted_powerlaw_exp(distribution):
         if xmin not in self.N_xmin:
             self.N_xmin[xmin] = N
 
+        # constraint: avoid overflowing np.exp((xi - beta) * lambda_)
+        constraint = lambda params: 100 - self.xmax * (1- params[3]) * params[1]
         res = minimize(self._loglikelihood, x0=(1.27, 3e-05, 0.5, 0.2),
-                       method='L-BFGS-B', tol=1e-10,
+                       # here SLSQP is used instead of L-BFGS-B to add
+                       # constraints, mainly to avoid exponential overflow
+                       method='SLSQP', tol=1e-10,
                        args=(xmin, freq, N),
-                       bounds=((0.5, 3), (1e-6, 1e-3), (1e-15, 1. - 1e-2),
-                               (xmin / self.xmax, 0.5)))
+                       bounds=((0.5, 3), (1e-10, 1e-1), (1e-15, 1. - 1e-2),
+                               (xmin / self.xmax, 0.5)),
+                       constraints={'type':'ineq', 'fun': constraint})
 
         aic = 2 * res.fun + 2 * self.n_para
         fits = {}

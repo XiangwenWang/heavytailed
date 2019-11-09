@@ -16,8 +16,8 @@ class lognormal(distribution):
 
     # change these values when necessary
     # especially when the returned likelihood is np.nan
-    para_limits = {'mu': (-10, 10), 'sigma': (1.5, 8)}
-    init_values = (2, 4)
+    para_limits = {'mu': (-100, 100), 'sigma': (1 + 1e-2, 100.)}
+    init_values = (0., 2.)
 
     def __init__(self):
         super(lognormal, self).__init__()

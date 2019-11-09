@@ -30,11 +30,13 @@ class poisson(distribution):
         N = np.sum(freq[:, -1])
         if xmin not in self.N_xmin:
             self.N_xmin[xmin] = N
-
         res = minimize(self._loglikelihood, x0=(xmin + 1.),
-                       method='L-BFGS-B', tol=1e-8,
+                       # here SLSQP is used instead of L-BFGS-B to add constraints
+                       method='SLSQP', tol=1e-8,
                        args=(xmin, sum_x, sum_log_x_fact, N),
-                       bounds=((0.1 + 1e-6, 10.),))
+                       bounds=((0.1 + 1e-6, 1e10),),
+                       constraints={'type': 'ineq',
+                                    'fun': lambda tmp_mu: 1 - sp_pois.cdf(xmin - 1, tmp_mu)})
 
         aic = 2 * res.fun + 2 * self.n_para
         fits = {}
