@@ -42,3 +42,5 @@ Example Usage:
 from heavy_tailed import compare
 compare.comparison('testdata/raw_25_bets.dat', xmin=25)
 ```
+
+The MLE could be a non-convex function, therefore it is suggested to try different initial values (for distribution parameters) to avoid local minima.
