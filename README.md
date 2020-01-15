@@ -44,3 +44,8 @@ compare.comparison('testdata/raw_25_bets.dat', xmin=25)
 ```
 
 The MLE could be a non-convex function, therefore it is suggested to try different initial values (for distribution parameters) to avoid local minima.
+
+If you find this package useful in your publication, please kindly consider citing the following two articles:
+
+* Wang, X., & Pleimling, M. (2017). Foraging patterns in online searches. Physical Review E, 95(3), 032145.
+* Wang, X., & Pleimling, M. (2018). Behavior analysis of virtual-item gambling. Physical Review E, 98(1), 012126.
