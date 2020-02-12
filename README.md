@@ -37,6 +37,15 @@ The model with minimum **AIC** (or say the largest Akaike weight) will be select
 
 The analysis mainly focuses on the tails, and the start of the tail will be determined through minimizing the **K-S distance** between fitted models and the empirical distribution.
 
+Installation:  
+```
+pip install heavy-tailed
+```  
+or  
+```
+pip3 install heavy-tailed
+```
+
 Example Usage:  
 ```python
 from heavy_tailed import compare
