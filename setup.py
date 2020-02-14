@@ -6,7 +6,7 @@ with open('README.md') as fp:
 
 setup(
     name='heavy_tailed',
-    version='1.0.0',
+    version='1.0.1',
     description='Perform distribution analysis on heavy-tailed distributed data',
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -31,5 +31,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ]
 )
