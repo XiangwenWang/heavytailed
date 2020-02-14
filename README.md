@@ -40,6 +40,10 @@ The analysis mainly focuses on the tails, and the start of the tail will be dete
 Installation:  
 ```
 pip install heavytailed
+```  
+or  
+```
+conda install -c wangxiangwen heavytailed
 ```
 
 Example Usage:  
