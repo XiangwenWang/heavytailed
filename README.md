@@ -1,4 +1,4 @@
-# heavy_tailed
+# heavytailed
 Perform distribution analysis on heavy-tailed distributed data
 
 Raw data are expected to be **positive integers**. Maximum likelihood estimation (**MLE**) will be performed to fit the following models to the data:
@@ -39,16 +39,12 @@ The analysis mainly focuses on the tails, and the start of the tail will be dete
 
 Installation:  
 ```
-pip install heavy-tailed
-```  
-or  
-```
-pip3 install heavy-tailed
+pip install heavytailed
 ```
 
 Example Usage:  
 ```python
-from heavy_tailed import compare
+from heavytailed import compare
 compare.comparison('testdata/raw_25_bets.dat', xmin=25)
 ```
 

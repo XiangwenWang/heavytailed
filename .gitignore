@@ -1,6 +1,6 @@
-heavy_tailed/*.pyc
-heavy_tailed/__pycache__/
+heavytailed/*.pyc
+heavytailed/__pycache__/
 build/*
 dist/*
-heavy_tailed.egg-info/*
+heavytailed.egg-info/*
 conda_recipes/*

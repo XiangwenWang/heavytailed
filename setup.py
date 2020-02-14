@@ -5,16 +5,16 @@ with open('README.md') as fp:
     readme = fp.read()
 
 setup(
-    name='heavy_tailed',
+    name='heavytailed',
     version='1.0.1',
     description='Perform distribution analysis on heavy-tailed distributed data',
     long_description=readme,
     long_description_content_type="text/markdown",
     author='Xiangwen Wang',
     author_email='wangxiangwen1989@gmail.com',
-    url='https://github.com/XiangwenWang/heavy_tailed',
+    url='https://github.com/XiangwenWang/heavytailed',
     keywords='heavy-tailed, distribution analysis',
-    packages=['heavy_tailed'],
+    packages=['heavytailed'],
     include_package_data=True,
     install_requires=['numpy', 'scipy', 'pandas', 'mpmath', 'matplotlib'],
     license="BSD 2-Clause License",
