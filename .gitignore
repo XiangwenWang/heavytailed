@@ -3,3 +3,4 @@ heavy_tailed/__pycache__/
 build/*
 dist/*
 heavy_tailed.egg-info/*
+conda_recipes/*
