@@ -6,7 +6,7 @@ with open('README.md') as fp:
 
 setup(
     name='heavytailed',
-    version='1.0.1',
+    version='1.0.3',
     description='Perform distribution analysis on heavy-tailed distributed data',
     long_description=readme,
     long_description_content_type="text/markdown",
